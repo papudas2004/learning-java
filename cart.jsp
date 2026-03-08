@@ -1,142 +1,194 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Shopping Cart Simulator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Shopping Cart System</title>
 
 <style>
+
 body{
-    background-color:#f2f2f2;
-    font-family:Arial;
+margin:0;
+padding:0;
+font-family:Segoe UI, sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+
+background:
+linear-gradient(rgba(10,25,47,0.25),rgba(10,25,47,0.25)),
+url('background.jpg');
+
+background-size:cover;
+background-position:center;
 }
+
+/* CARD */
 
 .container{
-    width:500px;
-    margin:100px auto;
-    background:white;
-    padding:25px;
-    border-radius:10px;
-    box-shadow:0px 0px 10px gray;
-    text-align:center;
+background:white;
+padding:40px;
+border-radius:25px;
+width:500px;
+text-align:center;
+box-shadow:0 20px 50px rgba(0,0,0,0.5);
 }
+
+/* TITLE */
 
 h2{
-    color:#2c3e50;
+margin-bottom:25px;
+font-size:28px;
+color:#1a2a6c;
 }
+
+/* TABLE */
 
 table{
-    width:100%;
-    margin-top:15px;
+width:100%;
+border-collapse:collapse;
+margin-bottom:20px;
 }
+
+/* HEADER */
 
 th{
-    background:#3498db;
-    color:white;
-    padding:8px;
+background:#2b60de;
+color:white;
+padding:12px;
+border:2px solid #333;
+font-size:16px;
 }
+
+/* CELLS */
 
 td{
-    padding:8px;
+padding:12px;
+border:2px solid #333;
+background:#f9fbff;
+font-weight:500;
 }
 
-input[type="number"]{
-    width:60px;
+/* ROW SHADOW */
+
+tr{
+box-shadow:0 3px 8px rgba(0,0,0,0.2);
 }
+
+/* INPUT */
+
+input{
+width:60px;
+padding:6px;
+text-align:center;
+border-radius:6px;
+border:1px solid #777;
+}
+
+/* BUTTON */
 
 button{
-    margin-top:15px;
-    padding:10px 20px;
-    background:#27ae60;
-    color:white;
-    border:none;
-    border-radius:5px;
-    cursor:pointer;
+background:linear-gradient(to right,#3ad16a,#1f9f45);
+color:white;
+font-size:17px;
+border:none;
+padding:12px 25px;
+border-radius:10px;
+cursor:pointer;
+box-shadow:0 5px 12px rgba(0,0,0,0.3);
 }
 
 button:hover{
-    background:#219150;
+transform:scale(1.05);
 }
 
-#total{
-    margin-top:20px;
-    font-size:20px;
-    color:#e74c3c;
+/* TOTAL */
+
+.total{
+margin-top:20px;
+font-size:22px;
+font-weight:bold;
+color:#b30000;
 }
+
 </style>
-
-<script>
-function calculateTotal(){
-
-    var price1 = 50;
-    var price2 = 30;
-    var price3 = 80;
-    var price4 = 120;
-    var price5 = 60;
-
-    var q1 = document.getElementById("q1").value;
-    var q2 = document.getElementById("q2").value;
-    var q3 = document.getElementById("q3").value;
-    var q4 = document.getElementById("q4").value;
-    var q5 = document.getElementById("q5").value;
-
-    var total = (price1*q1) + (price2*q2) + (price3*q3) + (price4*q4) + (price5*q5);
-
-    document.getElementById("total").innerHTML="Grand Total = Rs. " + total;
-}
-</script>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<h2>Shopping Cart</h2>
+<h2>Smart Shopping Cart Simulator</h2>
 
-<table border="1">
+<table>
+
 <tr>
-<th>Item</th>
-<th>Price (Rs.)</th>
+<th>Product Name</th>
+<th>Unit Price (&#8377;)</th>
 <th>Quantity</th>
 </tr>
 
 <tr>
-<td>Pen</td>
+<td>Premium Pen</td>
 <td>50</td>
-<td><input type="number" id="q1" value="0"></td>
+<td><input type="number" class="qty" data-price="50" value="0" min="0"></td>
 </tr>
 
 <tr>
-<td>Notebook</td>
+<td>College Notebook</td>
 <td>30</td>
-<td><input type="number" id="q2" value="0"></td>
+<td><input type="number" class="qty" data-price="30" value="0" min="0"></td>
 </tr>
 
 <tr>
-<td>Bag</td>
+<td>School Backpack</td>
 <td>80</td>
-<td><input type="number" id="q3" value="0"></td>
+<td><input type="number" class="qty" data-price="80" value="0" min="0"></td>
 </tr>
 
 <tr>
 <td>Water Bottle</td>
-<td>120</td>
-<td><input type="number" id="q4" value="0"></td>
+<td>40</td>
+<td><input type="number" class="qty" data-price="40" value="0" min="0"></td>
 </tr>
 
 <tr>
-<td>Pencil Box</td>
+<td>Pencil Storage Box</td>
 <td>60</td>
-<td><input type="number" id="q5" value="0"></td>
+<td><input type="number" class="qty" data-price="60" value="0" min="0"></td>
 </tr>
 
 </table>
 
-<button onclick="calculateTotal()">Submit</button>
+<button onclick="calculate()">Calculate Total Cost</button>
 
-<div id="total"></div>
+<div class="total">
+Grand Total Amount = &#8377; <span id="total">0</span>
+</div>
 
 </div>
+
+<script>
+
+function calculate(){
+
+let total=0;
+
+document.querySelectorAll('.qty').forEach(function(item){
+
+let qty=parseInt(item.value)||0;
+let price=parseInt(item.getAttribute("data-price"));
+
+total += qty * price;
+
+});
+
+document.getElementById("total").innerText=total;
+
+}
+
+</script>
 
 </body>
 </html>

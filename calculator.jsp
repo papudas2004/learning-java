@@ -1,58 +1,120 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>JSP Calculator</title>
+<title>Simple Calculator</title>
+
+<style>
+body{
+    font-family: Arial;
+    background: linear-gradient(135deg,#1f1c2c,#928dab);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.calculator{
+    background:#222;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0, 0, 0, 0.085);
+    text-align:center;
+}
+
+h2{
+    color:white;
+}
+
+input{
+    width:220px;
+    height:45px;
+    font-size:22px;
+    text-align:right;
+    margin-bottom:15px;
+    border:none;
+    border-radius:8px;
+    padding-right:10px;
+}
+
+button{
+    width:50px;
+    height:45px;
+    margin:5px;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.number{
+    background:#444;
+    color:white;
+}
+
+.operator{
+    background:#98dd2a;
+    color:rgb(8, 6, 6);
+}
+
+.equal{
+    background:#28a745;
+    color:white;
+}
+
+.clear{
+    background:#dc3545;
+    color:white;
+}
+
+button:hover{
+    opacity:0.85;
+}
+</style>
 </head>
 
 <body>
 
-<h2>Simple Calculator</h2>
+<div class="calculator">
+<h2>Calculator</h2>
 
-<form method="post">
-    Enter First Number: 
-    <input type="text" name="num1"><br><br>
+<input type="text" id="result" readonly><br>
 
-    Enter Second Number: 
-    <input type="text" name="num2"><br><br>
+<button class="number" onclick="addValue('7')">7</button>
+<button class="number" onclick="addValue('8')">8</button>
+<button class="number" onclick="addValue('9')">9</button>
+<button class="operator" onclick="addValue('/')">/</button><br>
 
-    Select Operation:
-    <select name="op">
-        <option value="+">Addition (+)</option>
-        <option value="-">Subtraction (-)</option>
-        <option value="*">Multiplication (*)</option>
-        <option value="/">Division (/)</option>
-    </select><br><br>
+<button class="number" onclick="addValue('4')">4</button>
+<button class="number" onclick="addValue('5')">5</button>
+<button class="number" onclick="addValue('6')">6</button>
+<button class="operator" onclick="addValue('*')">*</button><br>
 
-    <input type="submit" value="Calculate">
-</form>
+<button class="number" onclick="addValue('1')">1</button>
+<button class="number" onclick="addValue('2')">2</button>
+<button class="number" onclick="addValue('3')">3</button>
+<button class="operator" onclick="addValue('-')">-</button><br>
 
-<hr>
+<button class="number" onclick="addValue('0')">0</button>
+<button class="clear" onclick="clearResult()">C</button>
+<button class="equal" onclick="calculate()">=</button>
+<button class="operator" onclick="addValue('+')">+</button>
 
-<%
-String n1 = request.getParameter("num1");
-String n2 = request.getParameter("num2");
-String op = request.getParameter("op");
+</div>
 
-if(n1 != null && n2 != null)
-{
-    double a = Double.parseDouble(n1);
-    double b = Double.parseDouble(n2);
-    double result = 0;
-
-    if(op.equals("+"))
-        result = a + b;
-    else if(op.equals("-"))
-        result = a - b;
-    else if(op.equals("*"))
-        result = a * b;
-    else if(op.equals("/"))
-        result = a / b;
-%>
-
-<h3>Result: <%= result %></h3>
-
-<%
+<script>
+function addValue(val){
+    document.getElementById("result").value += val;
 }
-%>
+
+function clearResult(){
+    document.getElementById("result").value="";
+}
+
+function calculate(){
+    var x=document.getElementById("result").value;
+    document.getElementById("result").value=eval(x);
+}
+</script>
 
 </body>
 </html>
